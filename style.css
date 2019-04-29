@@ -1,0 +1,15 @@
+body{
+	background: url('background.jpg')repeat top left fixed;
+	background-color:#000079; 
+	color:#ffffff;
+}
+hr.style1{
+    border-top: 1px solid #8c8b8b;
+ }
+video{
+	margin-left: 355px;
+}
+canvas{
+	margin-left: 355px;
+}
+h1 { color: #ffffff; font-family: 'Raleway',sans-serif; font-size: 62px; font-weight: 800; line-height: 72px; margin: 0 0 24px; text-align: center; text-transform: uppercase; }
