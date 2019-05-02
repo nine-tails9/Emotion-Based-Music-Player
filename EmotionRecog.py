@@ -20,28 +20,29 @@ def getFace(grey, cnt):
 		x, y, w, h = face[0]
 		grey = grey[y:y+w, x:x+h]
 		cv.equalizeHist(grey, grey)
-		return (grey, face)
+		return (grey, face[0])
 	face = face_cascade2.detectMultiScale(grey, 1.1, 5)
 	if len(face) > 0:
 		x, y, w, h = face[0]
 		grey = grey[y:y+w, x:x+h]
 		cv.equalizeHist(grey, grey)
-		return (grey, face)
+		return (grey, face[0])
 
 	face = face_cascade3.detectMultiScale(grey, 1.1, 5)
 	if len(face) > 0:
 		x, y, w, h = face[0]
 		grey = grey[y:y+w, x:x+h]
 		cv.equalizeHist(grey, grey)
-		return (grey, face)
+		return (grey, face[0])
 	face = face_cascade4.detectMultiScale(grey, 1.1, 5)
 	if len(face) > 0:
 		x, y, w, h = face[0]
 		grey = grey[y:y+w, x:x+h]
+
 		cv.equalizeHist(grey, grey)
-		return (grey, face)
+		return (grey, face[0])
 	cv.equalizeHist(grey, grey)
-	return (grey, [[0, 0, 0, 0]])
+	return (grey, (0,0,0,0))
 
 def train(path_to_train):
     db = os.listdir(path_to_train)
@@ -56,7 +57,7 @@ def train(path_to_train):
     labels = []
     fin_faces = []
     cnt = 0
-    epochs = len(faces) - 700
+    epochs = len(faces) - 750
     for face, lab in faces[:epochs]:
     	fin_faces.append(cv.resize(getFace(face, str(cnt))[0], (64, 64)))
     	labels.append(lab)
@@ -78,12 +79,15 @@ def test(faces, epochs):
     print("accuracy = " + str(cnt) + "%")
 def predict(path):
     img = cv.imread(path)
-    grey = getFace(img, "2")[0]
+    response = getFace(img, "2")
+    grey = response[0]
+    x, y, w, h = response[1]    
     label = face_recognizer.predict(cv.resize(grey, (64,64)))
+    cv.rectangle(img, (x, y), (x + w, y + h), (17, 14, 143), 3)
+    cv.imwrite("RecognisedEmotion.jpg", img)
     return label
 
 train('Sorted')
-
 # cap = cv.VideoCapture(0)
 
 # while  True:

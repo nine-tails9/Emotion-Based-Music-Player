@@ -18,6 +18,8 @@ def hello_world():
 @app.route('/recognize')
 def emotion():
 	lan = request.args.get('path')
+	lan = './raw_images/' + lan
+	print(lan)
 	x = str(emotions[predict(lan)[0]])
 	return jsonify(
         emotion=str(x)
