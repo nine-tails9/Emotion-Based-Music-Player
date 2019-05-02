@@ -1,0 +1,139 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="Main.css" rel="stylesheet"/>
+        <script src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+      function pull(){  
+        console.log(localStorage.getItem('emotion'));
+      }
+
+    </script>
+    </head>
+    <body onload="pull();">
+
+        <div id="bg">
+            <div id="blackLayer" onclick="pull()">
+                <h1>Emoti Player</h1>
+            </div>
+
+            <img src="Poster1.jpg"/>
+        </div>
+        <div id="main2">
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="../RecognisedEmotion.jpg" alt="Card image cap">
+          <div class="card-body">
+            <p class="card-text"  id="txt"><b>Emotion Detected : <b></p>
+              </div>
+            </div>
+        </div>
+        <div id="main">
+            <div id="image">
+                <img src="Poster1.jpg"/>
+            </div>
+            <div id="player">
+                <div id="songTitle">Demo</div>
+                <div id="buttons">
+                    <button id="pre" onclick="pre()"><img src="Pre.png" height="90%" width="90%"/></button>
+                    <button id="play" onclick="playOrPauseSong()"><img src="Pause.png"/></button>
+                    <button id="next" onclick="next()"><img src="Next.png" height="90%" width="90%"/></button>
+                </div>
+                
+                <div id="seek-bar">
+                    <div id="fill"></div>
+                    <div id="handle"></div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+    <script type="text/javascript">
+        var emt=localStorage.getItem('emotion');
+        $("#txt").append(emt);
+        var songs = [emt+"/Song1.mp3",emt+"/Song2.mp3",emt+"/Song3.mp3"];
+        var poster = ["Poster1.jpg","Poster2.jpg","Poster3.jpg"];
+        
+        var songTitle = document.getElementById("songTitle");
+        var fillBar = document.getElementById("fill");
+        
+        var song = new Audio();
+        var currentSong = 0;    // it point to the current song
+        
+        window.onload = playSong;   // it will call the function playSong when window is load
+        
+        function playSong(){
+            
+            song.src = songs[currentSong];  //set the source of 0th song 
+            
+            songTitle.textContent = songs[currentSong]; // set the title of song
+            
+            song.play();    // play the song
+        }
+        
+        function playOrPauseSong(){
+            
+            if(song.paused){
+                song.play();
+                $("#play img").attr("src","Pause.png");
+            }
+            else{
+                song.pause();
+                $("#play img").attr("src","Play.png");
+            }
+        }
+        
+        song.addEventListener('timeupdate',function(){ 
+            
+            var position = song.currentTime / song.duration;
+            
+            fillBar.style.width = position * 100 +'%';
+        });
+        
+    
+        function next(){
+            
+            currentSong++;
+            if(currentSong > 2){
+                currentSong = 0;
+            }
+            playSong();
+            $("#play img").attr("src","Pause.png");
+            $("#image img").attr("src",poster[currentSong]);
+            $("#bg img").attr("src",poster[currentSong]);
+        }
+    
+        function pre(){
+            
+            currentSong--;
+            if(currentSong < 0){
+                currentSong = 2;
+            }
+            playSong();
+            $("#play img").attr("src","Pause.png");
+            $("#image img").attr("src",poster[currentSong]);
+            $("#bg img").attr("src",poster[currentSong]);
+        }
+    </script>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</html>
